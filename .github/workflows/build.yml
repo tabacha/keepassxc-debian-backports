@@ -102,6 +102,14 @@ jobs:
           name: debs-${{ inputs.suite }}-${{ matrix.arch }}
           path: debs/
           if-no-files-found: error
+      # Bei Fehlern Build-Log, lintian-Ausgabe und ggf. schon gebaute Pakete aufheben
+      - if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: failed-${{ inputs.suite }}-${{ matrix.arch }}
+          path: debs/
+          if-no-files-found: ignore
+          retention-days: 7
 
   smoke:
     name: smoke (${{ inputs.suite }}, ${{ matrix.arch }})

@@ -19,6 +19,10 @@ shopt -s nullglob
 dscs=("$SRC"/*.dsc)
 [[ ${#dscs[@]} -eq 1 ]] || die "erwarte genau eine .dsc in $SRC"
 
+# Logs landen sofort in OUT, damit die CI sie auch bei einem Fehler hochladen kann.
+mkdir -p "$OUT"; OUT=$(cd "$OUT" && pwd)
+LOG="$OUT/build.log"
+
 id builder >/dev/null 2>&1 || useradd --create-home --shell /bin/bash builder
 B=$(mktemp -d /tmp/kpxc-build.XXXXXX)
 dcmd cp "${dscs[0]}" "$B/"
@@ -36,26 +40,30 @@ set -o pipefail
 runuser -u builder -- env -i \
     PATH=/usr/sbin:/usr/bin:/sbin:/bin HOME=/home/builder LANG=C.UTF-8 \
     DEB_BUILD_OPTIONS="parallel=$(nproc)" \
-    bash -c "cd '$B/src' && dpkg-buildpackage -us -uc $BOPT" 2>&1 | tee "$B/build.log"
+    bash -c "cd '$B/src' && dpkg-buildpackage -us -uc $BOPT" 2>&1 | tee "$LOG"
 
 # Sicherstellen, dass die Testsuiten wirklich gelaufen und grün sind:
 # 2 Varianten (minimal, full) x 2 Läufe (ohne X, mit xvfb) = 4 ctest-Zusammenfassungen.
-passed=$(grep -c 'tests passed, 0 tests failed' "$B/build.log" || true)
+passed=$(grep -c 'tests passed, 0 tests failed' "$LOG" || true)
 log "ctest-Zusammenfassungen ohne Fehler: $passed"
-grep -E 'tests passed|tests failed out of' "$B/build.log" >&2 || true
+grep -E 'tests passed|tests failed out of' "$LOG" >&2 || true
 (( passed >= 4 )) || die "erwartet mindestens 4 erfolgreiche ctest-Läufe, gefunden: $passed"
-if grep -qE '[1-9][0-9]* tests failed out of' "$B/build.log"; then
+if grep -qE '[1-9][0-9]* tests failed out of' "$LOG"; then
     die "es sind Tests fehlgeschlagen"
 fi
 
+# lintian: Fehler der Stufe "error" brechen ab (rc 2).
+# bad-distribution-in-changes-file wird unterdrückt: unsere Suite-Namen
+# (trixie-keepassxc, ...) sind bewusst keine offiziellen Debian-Distributionen.
 log "lintian"
 changes=("$B"/*.changes)
-runuser -u builder -- lintian --fail-on error --info --display-info "${changes[@]}"
+runuser -u builder -- lintian --fail-on error --info --display-info \
+    --suppress-tags bad-distribution-in-changes-file \
+    "${changes[@]}" 2>&1 | tee "$OUT/lintian.log"
 
-mkdir -p "$OUT"
 for deb in "$B"/*.deb; do
     [[ $deb == *-dbgsym_* ]] && continue
     cp "$deb" "$OUT/"
 done
-cp "$B"/*.buildinfo "$B"/*.changes "$B/build.log" "$OUT/"
+cp "$B"/*.buildinfo "$B"/*.changes "$OUT/"
 log "Ergebnis:"; ls -l "$OUT" >&2
