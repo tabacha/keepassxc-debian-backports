@@ -13,36 +13,47 @@ bleiben offline.
 
 ## Schlüssel erzeugen (am besten auf einem Offline-Rechner / Live-System)
 
-Für jede Suite (`stable`, dann `snapshot`):
+Im Wurzelverzeichnis eines Klons dieses Repos ausführen. `OUT` muss **außerhalb**
+des Repos liegen; dort landen die geheimen Dateien.
 
 ```bash
-SUITE=stable
-export GNUPGHOME=$(mktemp -d)
+OUT=~/keepassxc-keys            # später auf USB-Stick/Offline-Medium verschieben
+umask 077                       # geheime Dateien nur für dich lesbar
+mkdir -p "$OUT"
 
-# Primärschlüssel: nur zum Zertifizieren, läuft nicht ab, bleibt offline
-gpg --quick-gen-key "KeePassXC Debian Backports ($SUITE)" ed25519 cert never
-FPR=$(gpg --list-keys --with-colons | awk -F: '/^fpr/{print $10; exit}')
+for SUITE in stable snapshot; do
+  export GNUPGHOME=$(mktemp -d)
+  nopass=(--batch --pinentry-mode loopback --passphrase '')
 
-# Signing-Subkey mit Ablaufdatum – nur der kommt in die CI
-gpg --quick-add-key "$FPR" ed25519 sign 2y
+  # Primärschlüssel: nur zum Zertifizieren, läuft nicht ab, bleibt offline
+  gpg "${nopass[@]}" --quick-gen-key "KeePassXC Debian Backports ($SUITE)" ed25519 cert never
+  FPR=$(gpg --list-keys --with-colons | awk -F: '/^fpr/{print $10; exit}')
 
-# Öffentlichen Schlüssel ins Repo
-gpg --armor --export "$FPR" > keys/repo-$SUITE.asc
-echo "SIGNING_FPR_${SUITE^^}=\"$FPR\""   # -> in config.env eintragen
+  # Signing-Subkey mit Ablaufdatum – nur der kommt in die CI
+  gpg "${nopass[@]}" --quick-add-key "$FPR" ed25519 sign 2y
+  SUBFPR=$(gpg --list-keys --with-colons "$FPR" | awk -F: '/^sub/{s=1;next} s&&/^fpr/{print $10; exit}')
 
-# NUR den Subkey exportieren (das "!" hinter dem Subkey-Fingerprint ist wichtig)
-SUBFPR=$(gpg --list-keys --with-colons "$FPR" | awk -F: '/^sub/{s=1;next} s&&/^fpr/{print $10; exit}')
-gpg --armor --export-secret-subkeys "${SUBFPR}!" > $SUITE-signing-subkey.asc
+  # Öffentlicher Schlüssel + Fingerprint ins Repo
+  gpg --armor --export "$FPR" > "keys/repo-$SUITE.asc"
+  sed -i "s/^SIGNING_FPR_${SUITE^^}=.*/SIGNING_FPR_${SUITE^^}=\"$FPR\"/" config.env
 
-# Backup des kompletten Schlüssels (inkl. Primärschlüssel) offline sichern,
-# z.B. auf zwei USB-Sticks und/oder mit paperkey:
-gpg --armor --export-secret-keys "$FPR" > $SUITE-FULL-BACKUP.asc
-gpg --output $SUITE-revoke.asc --gen-revoke "$FPR"
+  # NUR den Subkey exportieren (das "!" ist wichtig) – ohne Passphrase, für das GitHub-Secret
+  gpg "${nopass[@]}" --armor --export-secret-subkeys "${SUBFPR}!" > "$OUT/$SUITE-signing-subkey.asc"
+
+  # ERST JETZT eine Passphrase setzen und das Voll-Backup exportieren
+  gpg --passwd "$FPR"
+  gpg --armor --export-secret-keys "$FPR" > "$OUT/$SUITE-FULL-BACKUP.asc"
+  cp "$GNUPGHOME/openpgp-revocs.d/$FPR.rev" "$OUT/$SUITE-revoke.asc"
+
+  gpgconf --kill all; rm -rf "$GNUPGHOME"; unset GNUPGHOME
+done
+ls -l "$OUT"; git diff --stat
 ```
 
-Optional kann der Subkey eine Passphrase haben. Dann kommt sie als zweites Secret
-`REPO_SIGNING_PASSPHRASE` in dieselbe Environment. Viel Sicherheit bringt das nicht,
-weil beides am selben Ort liegt.
+So liegt die Passphrase des Backups nie in GitHub, und der CI-Subkey ist
+unabhängig davon. Wer dem Subkey trotzdem eine Passphrase geben will, legt sie als
+zweites Secret `REPO_SIGNING_PASSPHRASE` in dieselbe Environment. Viel Sicherheit
+bringt das nicht, weil beides am selben Ort liegt.
 
 ## In GitHub hinterlegen
 
