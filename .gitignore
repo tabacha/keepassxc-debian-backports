@@ -1,0 +1,6 @@
+out/
+*.deb
+*.dsc
+*.tar.*
+*.asc.secret
+*-signing-subkey*.asc

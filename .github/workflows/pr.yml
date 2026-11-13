@@ -1,0 +1,42 @@
+# PR-Checks: Konsistenz prüfen, beide Suites bauen und testen. Keine Secrets, kein Publish.
+name: pr
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: shellcheck
+        run: shellcheck -x scripts/*.sh
+      - name: Actions/Images gepinnt
+        run: scripts/check-pins.sh
+      - name: REVISION-Regel
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: scripts/check-revision.sh "$BASE" "$HEAD"
+
+  build-stable:
+    needs: lint
+    uses: ./.github/workflows/build.yml
+    with:
+      suite: stable
+
+  build-snapshot:
+    needs: lint
+    uses: ./.github/workflows/build.yml
+    with:
+      suite: snapshot

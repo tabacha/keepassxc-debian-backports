@@ -1,0 +1,2 @@
+# Ein Patchname pro Zeile (Datei im selben Verzeichnis), Reihenfolge = Anwendungsreihenfolge.
+# patches/series gilt für beide Suites, patches/<suite>/series zusätzlich nur für diese Suite.

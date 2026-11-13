@@ -1,0 +1,62 @@
+# Snapshot-Suite: täglich das neueste KeePassXC-Release bauen, testen, veröffentlichen.
+# Ist die Version neuer als VERSION, wird ein PR zum Anheben von Stable geöffnet.
+name: snapshot
+
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: snapshot
+  cancel-in-progress: false
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
+    with:
+      suite: snapshot
+      check_state: true
+
+  attest:
+    needs: build
+    if: needs.build.outputs.changed == 'true'
+    uses: ./.github/workflows/attest.yml
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    with:
+      suite: snapshot
+
+  publish:
+    needs: [build, attest]
+    if: needs.build.outputs.changed == 'true'
+    uses: ./.github/workflows/publish.yml
+    permissions:
+      contents: write
+    with:
+      suite: snapshot
+      environment: snapshot
+
+  promote:
+    needs: [build, publish]
+    # Läuft nach erfolgreicher Veröffentlichung oder wenn der Stand schon veröffentlicht war.
+    if: >-
+      !cancelled() && needs.build.result == 'success' &&
+      (needs.publish.result == 'success' || needs.build.outputs.changed == 'false')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: PR für Stable öffnen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPSTREAM: ${{ needs.build.outputs.upstream }}
+        run: scripts/promote.sh "$UPSTREAM"

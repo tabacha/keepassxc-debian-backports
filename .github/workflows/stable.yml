@@ -1,0 +1,51 @@
+# Stable-Suite: baut die Version aus VERSION/REVISION, wenn sich auf main etwas
+# Relevantes ändert. Veröffentlichung erst nach Freigabe in der Environment "release".
+name: stable
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - VERSION
+      - REVISION
+      - config.env
+      - patches/**
+      - packaging/**
+      - keys/repo-stable.asc
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: stable
+  cancel-in-progress: false
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
+    with:
+      suite: stable
+      check_state: true
+
+  attest:
+    needs: build
+    if: needs.build.outputs.changed == 'true'
+    uses: ./.github/workflows/attest.yml
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    with:
+      suite: stable
+
+  publish:
+    needs: [build, attest]
+    if: needs.build.outputs.changed == 'true'
+    uses: ./.github/workflows/publish.yml
+    permissions:
+      contents: write
+    with:
+      suite: stable
+      environment: release

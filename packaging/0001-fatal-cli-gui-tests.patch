@@ -1,0 +1,27 @@
+Description: CLI- und GUI-Tests nicht mehr ignorieren
+ Debian ignoriert Fehler von testcli/testgui (|| true), weil die
+ Clipboard-Tests unter Xvfb gelegentlich fehlschlagen. Stattdessen wird
+ jeder Test bis zu dreimal wiederholt und der Build schlägt fehl, wenn er
+ dann immer noch fehlschlägt.
+Author: keepassxc-debian-backports
+Forwarded: not-needed
+Last-Update: 2026-11-13
+---
+--- a/debian/rules
++++ b/debian/rules
+@@ -42,10 +42,11 @@
+ override_dh_auto_test:
+ 	dh_auto_test -- ARGS+="-E 'test(cli|gui)'"
+ 	dh_auto_test $(DH_FULL) -- ARGS+="-E 'test(cli|gui)'"
+-	# testcli and testgui use X, and have horrible X clipboard tests that
+-	# randomly fail, so ignore failures
+-	xvfb-run -a --server-args="-screen 0 800x600x24" dh_auto_test --no-parallel -- ARGS+="-R 'test(cli|gui)'" || true
+-	xvfb-run -a --server-args="-screen 0 800x600x24" dh_auto_test $(DH_FULL) --no-parallel -- ARGS+="-R 'test(cli|gui)'" || true
++	# testcli and testgui use X and have flaky clipboard tests.
++	# Instead of ignoring all failures, retry each test up to 3 times
++	# and fail the build if it still fails (keepassxc-debian-backports).
++	xvfb-run -a --server-args="-screen 0 800x600x24" dh_auto_test --no-parallel -- ARGS+="-R 'test(cli|gui)' --repeat until-pass:3"
++	xvfb-run -a --server-args="-screen 0 800x600x24" dh_auto_test $(DH_FULL) --no-parallel -- ARGS+="-R 'test(cli|gui)' --repeat until-pass:3"
+ 
+ override_dh_makeshlibs:
+ 	# keepassxc only ships plugins

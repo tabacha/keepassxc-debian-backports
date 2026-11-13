@@ -1,0 +1,81 @@
+# Wiederverwendbar: Pakete signieren und ins APT-Repo (Branch gh-pages) veröffentlichen.
+# Einziger Job mit Zugriff auf den Signing-Key (über die GitHub-Environment).
+# Führt keinen Upstream-Code aus, sondern nur Skripte aus diesem Repo.
+name: publish
+
+on:
+  workflow_call:
+    inputs:
+      suite:
+        type: string
+        required: true
+      environment:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    environment: ${{ inputs.environment }}
+    permissions:
+      contents: write   # Push auf gh-pages
+    concurrency:
+      group: gh-pages-publish
+      cancel-in-progress: false
+    container:
+      image: debian:trixie@sha256:9c6e381421d0f48d1b8133e573f33c185ee16cbf505eda9c4a8a4791b25ea8a6
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          path: repo
+      - run: repo/scripts/install-deps.sh publish
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: debs-${{ inputs.suite }}-*
+          path: debs
+          merge-multiple: true
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: source-${{ inputs.suite }}
+          path: source
+
+      - name: gh-pages auschecken
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          git config --global --add safe.directory '*'
+          git init -q pages && cd pages
+          git remote add origin "https://github.com/$REPO"
+          auth="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          if git -c http.extraheader="$auth" fetch -q --depth 1 origin gh-pages; then
+            git checkout -q -B gh-pages FETCH_HEAD
+          else
+            echo "gh-pages existiert noch nicht – wird neu angelegt"
+            git checkout -q --orphan gh-pages
+          fi
+
+      - name: Signieren und Repo aktualisieren
+        env:
+          REPO_SIGNING_KEY: ${{ secrets.REPO_SIGNING_KEY }}
+          REPO_SIGNING_PASSPHRASE: ${{ secrets.REPO_SIGNING_PASSPHRASE }}
+        run: repo/scripts/publish.sh debs source pages
+
+      - name: Pushen (ein Commit, ohne Historie – hält den Branch klein)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SUITE: ${{ inputs.suite }}
+          SHA: ${{ github.sha }}
+        run: |
+          cd pages
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -q --orphan publish
+          git add -A
+          git commit -q -m "Publish $SUITE ($(sed -n 's/^PACKAGE_VERSION=//p' "state/$SUITE.env")) from $SHA"
+          auth="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          git -c http.extraheader="$auth" push -q --force origin publish:gh-pages
