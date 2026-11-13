@@ -5,7 +5,19 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export REPO_ROOT
 
 log() { printf '\033[1;34m==>\033[0m %s\n' "$*" >&2; }
-die() { printf '\033[1;31mERROR:\033[0m %s\n' "$*" >&2; exit 1; }
+die() {
+    printf '\033[1;31mERROR:\033[0m %s\n' "$*" >&2
+    [[ -n ${GITHUB_ACTIONS:-} ]] && printf '::error::%s\n' "$*"
+    exit 1
+}
+
+# In GitHub Actions jeden fehlgeschlagenen Befehl als Annotation melden
+# (in der Run-Übersicht sichtbar, auch ohne Zugriff auf das volle Log).
+if [[ -n ${GITHUB_ACTIONS:-} ]]; then
+    set -E
+    # shellcheck disable=SC2154 # rc wird im Trap selbst gesetzt
+    trap 'rc=$?; printf "::error file=%s,line=%s::rc=%s bei: %s\n" "${BASH_SOURCE[0]#"$REPO_ROOT"/}" "$LINENO" "$rc" "$BASH_COMMAND"' ERR
+fi
 
 load_config() {
     # shellcheck source=../config.env
