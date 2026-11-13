@@ -24,6 +24,11 @@ on:
 permissions:
   contents: read
 
+# In Container-Jobs wäre der Default "sh" (dash); die Skripte brauchen bash.
+defaults:
+  run:
+    shell: bash
+
 jobs:
   source:
     name: source (${{ inputs.suite }})
