@@ -47,12 +47,25 @@ log "Suite $SUITE ($DIST), Upstream-Version $UP"
 
 # ---------------------------------------------------------------- 2. Debian-Quellen
 if [[ -z ${KPXC_SKIP_APT_SETUP:-} ]]; then
-    cat > /etc/apt/sources.list.d/kpxc-deb-src.sources <<'EOF'
+    # apt verlangt für dieselbe Quelle (hier: trixie) exakt denselben Signed-By-Wert.
+    # Das Image nutzt je nach Stand .pgp oder .gpg – daher den vorhandenen Wert übernehmen.
+    KEYRING=$(sed -n 's/^Signed-By:[[:space:]]*\(\/[^[:space:]]*\)[[:space:]]*$/\1/p' \
+                  /etc/apt/sources.list.d/debian.sources 2>/dev/null | head -n1)
+    if [[ -z $KEYRING ]]; then
+        for KEYRING in /usr/share/keyrings/debian-archive-keyring.pgp \
+                       /usr/share/keyrings/debian-archive-keyring.gpg; do
+            [[ -e $KEYRING ]] && break
+        done
+    fi
+    [[ $KEYRING == /usr/share/keyrings/debian-archive-keyring.* && -e $KEYRING ]] \
+        || die "Debian-Archiv-Keyring nicht gefunden (Signed-By: '$KEYRING')"
+    log "Archiv-Keyring: $KEYRING"
+    cat > /etc/apt/sources.list.d/kpxc-deb-src.sources <<EOF
 Types: deb-src
 URIs: http://deb.debian.org/debian
 Suites: trixie forky sid
 Components: main
-Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+Signed-By: $KEYRING
 EOF
     apt-get update -q
 fi

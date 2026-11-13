@@ -12,6 +12,10 @@ on:
       - patches/**
       - packaging/**
       - keys/repo-stable.asc
+      - scripts/**
+      - .github/workflows/build.yml
+      - .github/workflows/publish.yml
+      - .github/workflows/stable.yml
   workflow_dispatch:
 
 permissions: {}
