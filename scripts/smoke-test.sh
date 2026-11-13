@@ -41,6 +41,9 @@ check_version() {   # <paket>
     [[ $v == "$EXPECTED" ]] || die "$1 hat Version $v, erwartet $EXPECTED"
     keepassxc-cli --version
     QT_QPA_PLATFORM=offscreen keepassxc --version
+    # Icons sind SVG: ohne Qt-SVG-Plugin bleiben sie leer (Installation ohne Recommends)
+    dpkg-query -W -f '${Status}\n' qt6-svg-plugins 2>/dev/null | grep -q 'install ok installed' \
+        || die "qt6-svg-plugins wurde mit $1 nicht installiert – Icons wären leer"
     log "OK: $1 $v"
 }
 
