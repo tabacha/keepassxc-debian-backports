@@ -134,24 +134,36 @@ printf 'PUBLISHED_AT=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "state/$SUITE.env
 touch .nojekyll
 
 URL=$(pages_url)
-cat > index.html <<EOF
-<!doctype html>
-<html lang="de"><meta charset="utf-8"><title>KeePassXC Backports</title>
-<style>body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}pre{background:#f4f4f4;padding:1rem;overflow-x:auto}</style>
-<h1>KeePassXC-Backports für Debian 13</h1>
-<p>Stable: <code>$DIST_STABLE</code> · Snapshot (neuestes Upstream-Release): <code>$DIST_SNAPSHOT</code></p>
-<p>Fingerprints – bitte unabhängig über das GitHub-Repo prüfen:<br>
-stable: <code>${SIGNING_FPR_STABLE}</code><br>snapshot: <code>${SIGNING_FPR_SNAPSHOT}</code></p>
-<pre>sudo curl -fsSLo /usr/share/keyrings/keepassxc-backports-stable.gpg \\
-  $URL/keys/keepassxc-backports-stable.gpg
 
-sudo tee /etc/apt/sources.list.d/keepassxc-backports.sources &lt;&lt;'X'
-Types: deb
-URIs: $URL
-Suites: $DIST_STABLE
-Components: main
-Signed-By: /usr/share/keyrings/keepassxc-backports-stable.gpg
-X</pre>
-</html>
+# Fertige deb822-Quelldatei mit eingebettetem Schlüssel (Signed-By inline, apt >= 2.3).
+# Nutzer brauchen nur: sudo curl -fsSLo /etc/apt/sources.list.d/<datei> $URL/<datei>
+# Format: jede Schlüsselzeile mit einem Leerzeichen eingerückt, Leerzeilen als " .".
+SOURCES="keepassxc-backports-$SUITE.sources"
+{
+    printf 'Types: deb\nURIs: %s\nSuites: %s\nComponents: main\nSigned-By:\n' "$URL" "$DIST"
+    sed -e 's/[[:space:]]*$//' -e 's/^$/./' -e 's/^/ /' "$PUBKEY"
+} > "$SOURCES"
+
+# Startseite: zeigt die Befehle für alle bereits veröffentlichten Suites
+{
+    cat <<EOF
+<!doctype html>
+<html lang="de"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KeePassXC Backports</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}pre{background:#f4f4f4;padding:1rem;overflow-x:auto}</style>
+<h1>KeePassXC-Backports für Debian 13 (trixie)</h1>
 EOF
+    for s in stable snapshot; do
+        f="keepassxc-backports-$s.sources"
+        [[ -f $f ]] || continue
+        case $s in
+            stable)   echo "<h2>Stable</h2><p>Geprüfte Versionen, freigegeben nach Review.</p>" ;;
+            snapshot) echo "<h2>Snapshot</h2><p>Jeweils neuestes KeePassXC-Release, täglich automatisch gebaut.</p>" ;;
+        esac
+        printf '<pre>sudo curl -fsSLo /etc/apt/sources.list.d/%s \\\n  %s/%s\nsudo apt update\nsudo apt install keepassxc-full</pre>\n' "$f" "$URL" "$f"
+    done
+    echo '<p><code>keepassxc-minimal</code> statt <code>keepassxc-full</code>: ohne Browser-Integration, SSH-Agent und Secret Service.</p>'
+    echo '<p>Quellcode, Patches und Build-Logs: <a href="https://github.com/'"${GITHUB_REPOSITORY:-tabacha/keepassxc-debian-backports}"'">GitHub</a></p>'
+    echo '</html>'
+} > index.html
 log "Suite $DIST veröffentlicht: $VERSION"

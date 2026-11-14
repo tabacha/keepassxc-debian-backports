@@ -76,5 +76,8 @@ gpg --edit-key "$FPR"   # key N / revkey / save;  dann gpg --quick-add-key ...
 gpg --armor --export "$FPR" > keys/repo-$SUITE.asc   # aktualisierten Public Key committen
 ```
 
-Der Primär-Fingerprint bleibt dabei gleich. Nutzer müssen nur die aktualisierte
-`.gpg`-Datei neu herunterladen, ihr Trust-Anchor ändert sich nicht.
+Der Primär-Fingerprint bleibt dabei gleich. Der nächste Publish-Lauf schreibt den
+aktualisierten Schlüssel in die `.sources`-Dateien auf GitHub Pages. Da Nutzer eine
+Kopie des Schlüssels in ihrer `.sources`-Datei haben, müssen sie den `curl`-Befehl
+aus dem README danach **einmal erneut ausführen** – am besten rechtzeitig vor Ablauf
+des alten Subkeys ankündigen.

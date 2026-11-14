@@ -3,40 +3,52 @@
 Aktuelle [KeePassXC](https://keepassxc.org)-Versionen für **Debian 13 (trixie)** als
 signiertes APT-Repository, automatisch gebaut und getestet mit GitHub Actions.
 
-| Suite | Inhalt | Aktualisierung |
-|---|---|---|
-| `trixie-keepassxc` (stable) | Version aus [`VERSION`](VERSION) | nach Review und manueller Freigabe |
-| `trixie-keepassxc-snapshot` | jeweils neuestes Upstream-Release | täglich automatisch |
-
-Beide Suites haben **eigene Signing-Keys**. Wer nur stable einbindet, vertraut dem
-Snapshot-Key nicht.
-
-## Nutzung
+## Installation
 
 ```bash
-# Fingerprint vorher mit config.env in diesem Repo vergleichen!
-sudo curl -fsSLo /usr/share/keyrings/keepassxc-backports-stable.gpg \
-  https://tabacha.github.io/keepassxc-debian-backports/keys/keepassxc-backports-stable.gpg
-gpg --show-keys /usr/share/keyrings/keepassxc-backports-stable.gpg
-
-sudo tee /etc/apt/sources.list.d/keepassxc-backports.sources <<'EOF'
-Types: deb
-URIs: https://tabacha.github.io/keepassxc-debian-backports
-Suites: trixie-keepassxc
-Components: main
-Signed-By: /usr/share/keyrings/keepassxc-backports-stable.gpg
-EOF
-
+sudo curl -fsSLo /etc/apt/sources.list.d/keepassxc-backports-stable.sources \
+  https://tabacha.github.io/keepassxc-debian-backports/keepassxc-backports-stable.sources
 sudo apt update
-sudo apt install keepassxc-full      # oder keepassxc-minimal (ohne Browser-/SSH-Agent-/Secret-Service-Integration)
+sudo apt install keepassxc-full
 ```
 
-Für den Snapshot: `keepassxc-backports-snapshot.gpg` und `Suites: trixie-keepassxc-snapshot`.
-Source-Pakete gibt es mit `Types: deb deb-src`.
+Die `.sources`-Datei enthält den Signing-Key direkt (`Signed-By:` inline). Ein
+separater Keyring ist nicht nötig. Wird der Signing-Key erneuert (spätestens vor
+Ablauf, alle zwei Jahre), den `curl`-Befehl einfach erneut ausführen.
 
-Versionsschema: `2.8.0+dfsg1-1~kpxc13+1` (stable) bzw. `…~kpxc13+0~snapJJJJMMTThhmm`
-(snapshot). Stable ist bei gleicher Basis immer höher als Snapshot, und beide sind
-niedriger als ein späteres reguläres Debian-Paket derselben Version.
+`keepassxc-minimal` statt `keepassxc-full` installiert die Variante ohne
+Browser-Integration, SSH-Agent und Secret Service.
+
+### Snapshot
+
+Die Snapshot-Suite enthält jeweils das neueste KeePassXC-Release. Sie wird täglich
+automatisch gebaut und getestet, aber ohne manuelle Freigabe veröffentlicht.
+
+```bash
+sudo curl -fsSLo /etc/apt/sources.list.d/keepassxc-backports-snapshot.sources \
+  https://tabacha.github.io/keepassxc-debian-backports/keepassxc-backports-snapshot.sources
+```
+
+| Suite | Inhalt | Veröffentlichung |
+|---|---|---|
+| `trixie-keepassxc` (stable) | Version aus [`VERSION`](VERSION) | nach Review und manueller Freigabe |
+| `trixie-keepassxc-snapshot` | neuestes Upstream-Release | täglich automatisch |
+
+Beide Suites haben eigene Signing-Keys.
+
+### Versionen
+
+`2.8.0+dfsg1-1~kpxc13+1` (stable) bzw. `…~kpxc13+0~snapJJJJMMTThhmm` (snapshot).
+Bei gleicher Basis ist stable immer höher als snapshot, und beide sind niedriger
+als ein späteres reguläres Debian-Paket derselben Version. Ein Wechsel zurück auf
+Debians eigene Pakete funktioniert also ohne Downgrade.
+
+### Entfernen
+
+```bash
+sudo rm /etc/apt/sources.list.d/keepassxc-backports-*.sources
+sudo apt update
+```
 
 ## Wie gebaut wird
 
@@ -55,7 +67,8 @@ snapshot.yml (cron)        stable.yml (push auf main)          pr.yml (Pull Requ
  attest.yml ── SLSA-Build-Provenance (nur dieser Job bekommt ein OIDC-Token)
       ▼
  publish.yml ── Environment release/snapshot ── signiert InRelease/Release.gpg,
-                prüft Signatur gegen keys/repo-<suite>.asc, pusht gh-pages
+                prüft Signatur gegen keys/repo-<suite>.asc, erzeugt die .sources-Datei
+                mit eingebettetem Key, pusht gh-pages
       ▼
  promote (nur snapshot) ── PR "VERSION → neue Version" für Stable
 ```
