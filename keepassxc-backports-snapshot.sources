@@ -1,0 +1,21 @@
+Types: deb
+URIs: https://tabacha.github.io/keepassxc-debian-backports
+Suites: trixie-keepassxc-snapshot
+Components: main
+Signed-By:
+ -----BEGIN PGP PUBLIC KEY BLOCK-----
+ .
+ mDMEavcIzxYJKwYBBAHaRw8BAQdAQXsJPMMaJuosi+RY1sI3vo9hIGaATgkYZEDs
+ iZt5DR+0JUtlZVBhc3NYQyBEZWJpYW4gQmFja3BvcnRzIChzbmFwc2hvdCmIkAQT
+ FgoAOBYhBMOMahwrhpueDPFr5JJvfyvhN4+uBQJq9wjPAhsBBQsJCAcCBhUKCQgL
+ AgQWAgMBAh4BAheAAAoJEJJvfyvhN4+umCoA/iIDu6poHBBJ31kRNzaebs2OVUzA
+ Q+nY+OGqVdq1Wg7wAQC5P4afsUuh42bKrbeDN2qf2Etnjp8+YyUjCjKPwMMfCbgz
+ BGr3CM8WCSsGAQQB2kcPAQEHQMPWMwEgXIwRBtUhL7fXtW/2mxpjLfssHU7ULv+L
+ +4NAiPQEGBYKACYWIQTDjGocK4abngzxa+SSb38r4TePrgUCavcIzwIbAgUJA8Jn
+ AACBCRCSb38r4TePrnYgBBkWCgAdFiEECfDkRUTJtCv74aoTRK6Oj/3ggtoFAmr3
+ CM8ACgkQRK6Oj/3ggtoV5AEAzum4AbiSB7CUJmmdB5KHp/LtpoBqZPVyd1ObwoE/
+ 8ygA/0P0FAdap6smj5SuWOy0vS234Hct2ITbKwl8OjdMUBUAw8oA907tCa+LJ/+D
+ BBHHol7zqUuTLiNU2impiN7+ihs5AvEBALLuhLE4vva0vsXrAEI7SX6veMkUNcwO
+ ZnogbVFhjZcC
+ =CnTj
+ -----END PGP PUBLIC KEY BLOCK-----

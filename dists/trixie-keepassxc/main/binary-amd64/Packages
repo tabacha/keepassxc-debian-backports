@@ -1,0 +1,208 @@
+Package: keepassxc-full
+Architecture: amd64
+Version: 2.8.0+dfsg1-1~kpxc13+1
+Priority: optional
+Section: utils
+Source: keepassxc
+Maintainer: keepassxc maintainers <keepassxc@packages.debian.org>
+Installed-Size: 31394
+Provides: keepassxc (= 2.8.0+dfsg1-1~kpxc13+1)
+Depends: libbotan-3-12 (>= 3.12.0+dfsg), libc6 (>= 2.34), libgcc-s1 (>= 3.0), libkeyutils1 (>= 1.5.9), libminizip1t64, libpcsclite1 (>= 1.3.3), libqrencode4 (>= 3.2.0), libqt6concurrent6 (>= 6.1.2), libqt6core6t64 (>= 6.8.2), libqt6dbus6 (>= 6.8.2), libqt6gui6 (>= 6.8.2), libqt6network6 (>= 6.1.2), libqt6svg6 (>= 6.6.0), libqt6svgwidgets6 (>= 6.6.0), libqt6widgets6 (>= 6.8.2), libreadline8t64 (>= 6.0), libstdc++6 (>= 14), libusb-1.0-0 (>= 2:1.0.16), libx11-6, libxkbcommon0 (>= 1.0.0), libxtst6 (>= 2:1.2.5), libzxcvbn0 (>= 0.20150103), zlib1g (>= 1:1.1.4), qt6-svg-plugins
+Recommends: fonts-font-awesome
+Suggests: webext-keepassxc-browser, xclip
+Conflicts: keepassxc-minimal
+Breaks: keepassxc (<< 2.7.7+dfsg.1-3~)
+Replaces: keepassxc
+Filename: pool/trixie-keepassxc/k/keepassxc/keepassxc-full_2.8.0+dfsg1-1~kpxc13+1_amd64.deb
+Size: 8582432
+MD5sum: 3c6c8135c0d6b175f2959bb62253f2f8
+SHA1: 706f846dab99616a46df0efc00c7504eda2ea6a3
+SHA256: baf4ae4881a4bc3033a14311593f0000503670c28b646b7c4f225a94c519b1fa
+SHA512: 1d106635e3bb389590c9e7c99404d97df4d94fff7dfae7df4ea516e4eea6393285140c73ba21ae442c2d5c232a034514d6d20ed0d3598338e6f1dfd6cceba848
+Homepage: https://keepassxc.org/
+Description: Cross Platform Password Manager
+ KeePassXC is a free/open-source password manager or safe which helps you
+ to manage your passwords in a secure way. You can put all your
+ passwords in one database, which is locked with one master key or a
+ key-disk. So you only have to remember one single master password or
+ insert the key-disk to unlock the whole database. The databases are
+ encrypted using the algorithms AES or Twofish.
+ .
+ In contrast to KeePassX (package keepassx), KeePassXC is actively developed
+ and has more features, e.g., connectivity to a Web Browser plugin (package
+ webext-keepassxc-browser).
+ .
+ This package includes all plugins, including networking, and various IPC
+ like browser integration, ssh agent, freedesktop.org secret storage. Use
+ at your own risk.
+
+Package: keepassxc-full
+Architecture: amd64
+Version: 2.8.0+dfsg1-1~kpxc13+2
+Priority: optional
+Section: utils
+Source: keepassxc
+Maintainer: keepassxc maintainers <keepassxc@packages.debian.org>
+Installed-Size: 31394
+Provides: keepassxc (= 2.8.0+dfsg1-1~kpxc13+2)
+Depends: libbotan-3-12 (>= 3.12.0+dfsg), libc6 (>= 2.34), libgcc-s1 (>= 3.0), libkeyutils1 (>= 1.5.9), libminizip1t64, libpcsclite1 (>= 1.3.3), libqrencode4 (>= 3.2.0), libqt6concurrent6 (>= 6.1.2), libqt6core6t64 (>= 6.8.2), libqt6dbus6 (>= 6.8.2), libqt6gui6 (>= 6.8.2), libqt6network6 (>= 6.1.2), libqt6svg6 (>= 6.6.0), libqt6svgwidgets6 (>= 6.6.0), libqt6widgets6 (>= 6.8.2), libreadline8t64 (>= 6.0), libstdc++6 (>= 14), libusb-1.0-0 (>= 2:1.0.16), libx11-6, libxkbcommon0 (>= 1.0.0), libxtst6 (>= 2:1.2.5), libzxcvbn0 (>= 0.20150103), zlib1g (>= 1:1.1.4), qt6-svg-plugins
+Recommends: fonts-font-awesome
+Suggests: webext-keepassxc-browser, xclip
+Conflicts: keepassxc-minimal
+Breaks: keepassxc (<< 2.7.7+dfsg.1-3~)
+Replaces: keepassxc
+Filename: pool/trixie-keepassxc/k/keepassxc/keepassxc-full_2.8.0+dfsg1-1~kpxc13+2_amd64.deb
+Size: 8584136
+MD5sum: 68790b4440954b3d7289f781f52e7f8c
+SHA1: b5eff671fbb1469ea1c974c4076a1493fba21707
+SHA256: 9b7976ff685584fe614644cdc6249391712b62796dc93d7b0cb4a4dca2b57a56
+SHA512: 7b98e09a62393fb3f1a8c85e2f1e12000f4eac89e88d4f2e18beca20b3749ab150882a0967f32ea8333e5afb3f668533114e64bc926ea5f52b5bb8933d5ee3fc
+Homepage: https://keepassxc.org/
+Description: Cross Platform Password Manager
+ KeePassXC is a free/open-source password manager or safe which helps you
+ to manage your passwords in a secure way. You can put all your
+ passwords in one database, which is locked with one master key or a
+ key-disk. So you only have to remember one single master password or
+ insert the key-disk to unlock the whole database. The databases are
+ encrypted using the algorithms AES or Twofish.
+ .
+ In contrast to KeePassX (package keepassx), KeePassXC is actively developed
+ and has more features, e.g., connectivity to a Web Browser plugin (package
+ webext-keepassxc-browser).
+ .
+ This package includes all plugins, including networking, and various IPC
+ like browser integration, ssh agent, freedesktop.org secret storage. Use
+ at your own risk.
+
+Package: keepassxc-minimal
+Architecture: amd64
+Version: 2.8.0+dfsg1-1~kpxc13+1
+Priority: optional
+Section: utils
+Source: keepassxc
+Maintainer: keepassxc maintainers <keepassxc@packages.debian.org>
+Installed-Size: 29777
+Provides: keepassxc (= 2.8.0+dfsg1-1~kpxc13+1)
+Depends: libbotan-3-12 (>= 3.12.0+dfsg), libc6 (>= 2.34), libgcc-s1 (>= 3.0), libkeyutils1 (>= 1.5.9), libminizip1t64, libpcsclite1 (>= 1.3.3), libqrencode4 (>= 3.2.0), libqt6concurrent6 (>= 6.1.2), libqt6core6t64 (>= 6.8.2), libqt6dbus6 (>= 6.8.2), libqt6gui6 (>= 6.8.2), libqt6network6 (>= 6.1.2), libqt6svg6 (>= 6.6.0), libqt6svgwidgets6 (>= 6.6.0), libqt6widgets6 (>= 6.8.2), libreadline8t64 (>= 6.0), libstdc++6 (>= 14), libusb-1.0-0 (>= 2:1.0.16), libx11-6, libxkbcommon0 (>= 1.0.0), libxtst6 (>= 2:1.2.5), libzxcvbn0 (>= 0.20150103), zlib1g (>= 1:1.1.4), qt6-svg-plugins
+Recommends: fonts-font-awesome
+Conflicts: keepassxc-full
+Breaks: keepassxc (<< 2.7.7+dfsg.1-3~)
+Replaces: keepassxc
+Filename: pool/trixie-keepassxc/k/keepassxc/keepassxc-minimal_2.8.0+dfsg1-1~kpxc13+1_amd64.deb
+Size: 8168936
+MD5sum: a3eabb4f0c6ad332490061166745767c
+SHA1: 8e5c0d8b38b50db0db6abc7ad10f228eae9124fb
+SHA256: a34b3b1e5564e310e766df84098e25cc02a899e8ec0ece219d8e71be628e7406
+SHA512: 898263fbab9fb9eeb2108f05d1273e2ba0c4817c51c244a0a615babe4a34e79b47a9c396247dc9bb468220694a0bd068d287adda0875d6b6c691833f56f88b2f
+Homepage: https://keepassxc.org/
+Description: Cross Platform Password Manager
+ KeePassXC is a free/open-source password manager or safe which helps you
+ to manage your passwords in a secure way. You can put all your
+ passwords in one database, which is locked with one master key or a
+ key-disk. So you only have to remember one single master password or
+ insert the key-disk to unlock the whole database. The databases are
+ encrypted using the algorithms AES or Twofish.
+ .
+ In contrast to KeePassX (package keepassx), KeePassXC is actively developed
+ and has more features, e.g., connectivity to a Web Browser plugin (package
+ webext-keepassxc-browser).
+ .
+ This package includes only the bare minimal functionality, and no security
+ complications like networking, SSH agent, browser plugin, fdo secret storage.
+ See keepassxc-full if you absolutely need those.
+
+Package: keepassxc-minimal
+Architecture: amd64
+Version: 2.8.0+dfsg1-1~kpxc13+2
+Priority: optional
+Section: utils
+Source: keepassxc
+Maintainer: keepassxc maintainers <keepassxc@packages.debian.org>
+Installed-Size: 29777
+Provides: keepassxc (= 2.8.0+dfsg1-1~kpxc13+2)
+Depends: libbotan-3-12 (>= 3.12.0+dfsg), libc6 (>= 2.34), libgcc-s1 (>= 3.0), libkeyutils1 (>= 1.5.9), libminizip1t64, libpcsclite1 (>= 1.3.3), libqrencode4 (>= 3.2.0), libqt6concurrent6 (>= 6.1.2), libqt6core6t64 (>= 6.8.2), libqt6dbus6 (>= 6.8.2), libqt6gui6 (>= 6.8.2), libqt6network6 (>= 6.1.2), libqt6svg6 (>= 6.6.0), libqt6svgwidgets6 (>= 6.6.0), libqt6widgets6 (>= 6.8.2), libreadline8t64 (>= 6.0), libstdc++6 (>= 14), libusb-1.0-0 (>= 2:1.0.16), libx11-6, libxkbcommon0 (>= 1.0.0), libxtst6 (>= 2:1.2.5), libzxcvbn0 (>= 0.20150103), zlib1g (>= 1:1.1.4), qt6-svg-plugins
+Recommends: fonts-font-awesome
+Conflicts: keepassxc-full
+Breaks: keepassxc (<< 2.7.7+dfsg.1-3~)
+Replaces: keepassxc
+Filename: pool/trixie-keepassxc/k/keepassxc/keepassxc-minimal_2.8.0+dfsg1-1~kpxc13+2_amd64.deb
+Size: 8161744
+MD5sum: 8f63ed64e80f319e81c26289083df937
+SHA1: 0d3dae174bd4fc1cdb3e1d7c076e2d3357a35817
+SHA256: 6bfb2df1eb2fd8495fbe2d0053b5173e38c2bb9f67b6bacceb860df1b958ded7
+SHA512: 1fa17fc0d3fa13437b0ece5e42a63fdcd363995c5152ee0b625f280433a7a743c4b8002212e3b3942b01c6b98fb584bc4bc3c16ed2996482fff879f3cee607b7
+Homepage: https://keepassxc.org/
+Description: Cross Platform Password Manager
+ KeePassXC is a free/open-source password manager or safe which helps you
+ to manage your passwords in a secure way. You can put all your
+ passwords in one database, which is locked with one master key or a
+ key-disk. So you only have to remember one single master password or
+ insert the key-disk to unlock the whole database. The databases are
+ encrypted using the algorithms AES or Twofish.
+ .
+ In contrast to KeePassX (package keepassx), KeePassXC is actively developed
+ and has more features, e.g., connectivity to a Web Browser plugin (package
+ webext-keepassxc-browser).
+ .
+ This package includes only the bare minimal functionality, and no security
+ complications like networking, SSH agent, browser plugin, fdo secret storage.
+ See keepassxc-full if you absolutely need those.
+
+Package: keepassxc
+Architecture: all
+Version: 2.8.0+dfsg1-1~kpxc13+1
+Priority: optional
+Section: oldlibs
+Maintainer: keepassxc maintainers <keepassxc@packages.debian.org>
+Installed-Size: 86
+Depends: keepassxc-full | keepassxc-minimal
+Filename: pool/trixie-keepassxc/k/keepassxc/keepassxc_2.8.0+dfsg1-1~kpxc13+1_all.deb
+Size: 43992
+MD5sum: 58db4d760c3b5a28457ffcb71dbe1cef
+SHA1: a2e647b122a2a84d75415111baabe844815d74a1
+SHA256: 7b1d696dd4fe412dc2908d2dadaba2efdb36b65656c022c393fd3f9bd592f050
+SHA512: 3ce4028168e2b1b4a2c3405ddd80127f4eef017ed4e631c2c76e3bb9eea7308fa6a6f0178bc58cf13d71b61066beb6f75cae9045c7413b138daf8086baf399c7
+Homepage: https://keepassxc.org/
+Description: Cross Platform Password Manager (transitional package)
+ KeePassXC is a free/open-source password manager or safe which helps you
+ to manage your passwords in a secure way. You can put all your
+ passwords in one database, which is locked with one master key or a
+ key-disk. So you only have to remember one single master password or
+ insert the key-disk to unlock the whole database. The databases are
+ encrypted using the algorithms AES or Twofish.
+ .
+ In contrast to KeePassX (package keepassx), KeePassXC is actively developed
+ and has more features, e.g., connectivity to a Web Browser plugin (package
+ webext-keepassxc-browser).
+ .
+ This is a transitional package depending on keepassxc-full or keepassxc-minimal
+
+Package: keepassxc
+Architecture: all
+Version: 2.8.0+dfsg1-1~kpxc13+2
+Priority: optional
+Section: oldlibs
+Maintainer: keepassxc maintainers <keepassxc@packages.debian.org>
+Installed-Size: 86
+Depends: keepassxc-full | keepassxc-minimal
+Filename: pool/trixie-keepassxc/k/keepassxc/keepassxc_2.8.0+dfsg1-1~kpxc13+2_all.deb
+Size: 43996
+MD5sum: a38ece83639cd70b4a94bae7a431e051
+SHA1: a810eb5dfe2d94dfb73b7bf305b1f2565a4e6484
+SHA256: e23d85e9b23ce089a6ede5a916e94429e837fbb5476fe38f0f2257816b780429
+SHA512: b4888b25f44834be4d0a2b7de137bb5149e88fb8f170d6ff7bdf461a5fe92a2bdfdb29f995024b9662d8f1cbfc1241eaaa4a29885ff7080d5bc55e9b6d4ec229
+Homepage: https://keepassxc.org/
+Description: Cross Platform Password Manager (transitional package)
+ KeePassXC is a free/open-source password manager or safe which helps you
+ to manage your passwords in a secure way. You can put all your
+ passwords in one database, which is locked with one master key or a
+ key-disk. So you only have to remember one single master password or
+ insert the key-disk to unlock the whole database. The databases are
+ encrypted using the algorithms AES or Twofish.
+ .
+ In contrast to KeePassX (package keepassx), KeePassXC is actively developed
+ and has more features, e.g., connectivity to a Web Browser plugin (package
+ webext-keepassxc-browser).
+ .
+ This is a transitional package depending on keepassxc-full or keepassxc-minimal
+

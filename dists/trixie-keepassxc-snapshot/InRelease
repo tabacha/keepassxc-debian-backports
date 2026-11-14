@@ -1,0 +1,58 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Architectures: amd64 arm64
+Codename: trixie-keepassxc-snapshot
+Components: main
+Date: Sat, 14 Nov 2026 11:54:02 +0000
+Description: KeePassXC-Backports für Debian 13 (snapshot)
+Label: KeePassXC Backports (snapshot)
+Origin: KeePassXC Backports
+Suite: trixie-keepassxc-snapshot
+MD5Sum:
+ 42b079402d0e76029d950d147dc3b53a             6021 main/binary-amd64/Packages
+ e4551b6e9211b81b3aea2b7782e561e5             1834 main/binary-amd64/Packages.gz
+ 85350d17a14c46dffd264ea06a9dd0af             1860 main/binary-amd64/Packages.xz
+ 33851b5ad14b8ed97f2e365c0d75387a             6021 main/binary-arm64/Packages
+ dfa62f98e3e109dea1c963db924f21a8             1835 main/binary-arm64/Packages.gz
+ fa9c1a7f735b70e26b44ad412f9d64f7             1860 main/binary-arm64/Packages.xz
+ 49a563bc262742ec6d6ad7d23c1a834d             2772 main/source/Sources
+ 428a6b30306b097c8729eb52ffc9a9d3             1202 main/source/Sources.gz
+ a3fb6e8ed49be713f0b094dde29d2064             1236 main/source/Sources.xz
+SHA1:
+ ddbbd4ee63bddd16150f7422a655f8dbe11e6e5f             6021 main/binary-amd64/Packages
+ 69b6f2b389db76fcb981ae7c88b7c6d9bf5a9141             1834 main/binary-amd64/Packages.gz
+ 684eff3f41dd137de3d4f9a92dec601688e1c23f             1860 main/binary-amd64/Packages.xz
+ b5a5017e8d705d50bd7081d8fd1d7d856c77c7fc             6021 main/binary-arm64/Packages
+ a3d83f95b7074306f00969c21fb24793ed0ec8fd             1835 main/binary-arm64/Packages.gz
+ 4180b480ba3961af20b731751218e3a619be4325             1860 main/binary-arm64/Packages.xz
+ 9001277ca47bff281e46066afba81e71f87a016c             2772 main/source/Sources
+ 231c7b45283c58de6b3fbb6e405bda7a59975a05             1202 main/source/Sources.gz
+ 1102195b742d059c2c0be8e52a8f4333db3d2623             1236 main/source/Sources.xz
+SHA256:
+ f290b23a23b519f16a53c8d2f88942d5b774647464dca75709d7654ed7199fe8             6021 main/binary-amd64/Packages
+ fe1491cc079cf6116635d12b12a570d8b5d24379198ab038c88ea69ee6808919             1834 main/binary-amd64/Packages.gz
+ 55aab24535d7a7a0b6d42a9d380fc58af0fa766f932c7cebda13a86d399cc2d7             1860 main/binary-amd64/Packages.xz
+ 86b86fb43d6bf8ba016231a653afcee03dc18d4a66f110420220a2b7aa7253bc             6021 main/binary-arm64/Packages
+ 1754a30d86b8b03e0647d4f1ecad3ca6e39e197385060d38d4ee09cab1637579             1835 main/binary-arm64/Packages.gz
+ 8bea7e5a693f98aebb1bcaa635e8121eed52d4c7f15dae69194e5cabcec97dfc             1860 main/binary-arm64/Packages.xz
+ d14786605908cfebb2510ac632d020daba59bc1fcd6357be9c465b45519d789b             2772 main/source/Sources
+ b0fa16839f0ea078dcee17b862188e6e97a925c6f4d7833448413d8995b9a36f             1202 main/source/Sources.gz
+ 89179410f0e515331f67fc5dfe6c8127e7a28bcbca71d2df002f5034295d4007             1236 main/source/Sources.xz
+SHA512:
+ a69eeae8bb436435032a507a67ee79b18c46d9d2ede6a7bae686a61562919f8841ea2f563566bc5f1cd645815ea180f5b44dcc09d81fac40e475d6dea1eafcc3             6021 main/binary-amd64/Packages
+ 3a992740c647638a4b5b6faab17bcc343efe9ee6f99af1a4dc459959f62d4d676e5919d21648947564f48dac5e25e55cf473c43ecd7087a891c93f72521e1086             1834 main/binary-amd64/Packages.gz
+ 91c1f11387535dcb93aa16feba4b24717e901e7c458bd77ae3424a6e9807592dad9df5b80ac99be93ca4555f4b435027f794b610789ea7a8ba0e53d3be6ab4d6             1860 main/binary-amd64/Packages.xz
+ eff298d8d18078503e156482266d87e3aea77d48524f956ac7bd73fec8afb2b0ece78c0365e767c128507ef96e8f4b24b2e66f2d88c11d80fb524f37ec81f6cb             6021 main/binary-arm64/Packages
+ b5698d7b971c9c549669537ea27e17f26de9e108d567c284d622c8c9a6292cba6c28674cb202316d06d38369394fc290f2862e9944b7c151d7dd7966281c3c3f             1835 main/binary-arm64/Packages.gz
+ a55361222b56f4634b13c79456c325d33505001815b002de9fc6807c42ed87de3f112e2cb6fb17eb2cfde95b478f5c1217a0844943463c46922f4e4874c4a208             1860 main/binary-arm64/Packages.xz
+ 9ddcdac9847f1cd9d2e79235280a8eacd1c17c45baaf0fc14fc63acacb104218f9aa9f6ca073ddb6b5bd4e1f3b80655e10351bb448f1ad5fc5fbcf322a369993             2772 main/source/Sources
+ e435bb480862d7f34e03f18c16aa363cd5831007b82c39dc8026e6793e9f514b81a380f44e9a24043811e30aa10333a79ed970af84564804c217634256b48ec7             1202 main/source/Sources.gz
+ 58d5bd7d94f0d7395cd4c8cf3dfc3138c7cbc792916af0844466e4c05a5d0622c6d9347a21af9ae69f06efa8b8604edd6e2799a0edec7d21f99e5968ec82efb7             1236 main/source/Sources.xz
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQQJ8ORFRMm0K/vhqhNEro6P/eCC2gUCavhL2gAKCRBEro6P/eCC
+2lZJAQCIpjEDEw8JP1OH4lpZRYfIHu9zBHMkIyIrY2ci59DIIgEAsER8/vaqx/9r
+2H9dYykZhxMqv+UETu52PFhcgVXI0AM=
+=b6VL
+-----END PGP SIGNATURE-----

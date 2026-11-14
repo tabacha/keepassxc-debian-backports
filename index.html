@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="de"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KeePassXC Backports</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}pre{background:#f4f4f4;padding:1rem;overflow-x:auto}</style>
+<h1>KeePassXC-Backports für Debian 13 (trixie)</h1>
+<h2>Stable</h2><p>Geprüfte Versionen, freigegeben nach Review.</p>
+<pre>sudo curl -fsSLo /etc/apt/sources.list.d/keepassxc-backports-stable.sources \
+  https://tabacha.github.io/keepassxc-debian-backports/keepassxc-backports-stable.sources
+sudo apt update
+sudo apt install keepassxc-full</pre>
+<h2>Snapshot</h2><p>Jeweils neuestes KeePassXC-Release, täglich automatisch gebaut.</p>
+<pre>sudo curl -fsSLo /etc/apt/sources.list.d/keepassxc-backports-snapshot.sources \
+  https://tabacha.github.io/keepassxc-debian-backports/keepassxc-backports-snapshot.sources
+sudo apt update
+sudo apt install keepassxc-full</pre>
+<p><code>keepassxc-minimal</code> statt <code>keepassxc-full</code>: ohne Browser-Integration, SSH-Agent und Secret Service.</p>
+<p>Quellcode, Patches und Build-Logs: <a href="https://github.com/tabacha/keepassxc-debian-backports">GitHub</a></p>
+</html>
