@@ -88,6 +88,19 @@ gh_output() {
     fi
 }
 
+# Kopiert eine .dsc samt der darin gelisteten Dateien (Ersatz für "dcmd cp",
+# damit der Publish-Job ohne devscripts auskommt).
+copy_dsc() {   # <dsc> <zielverzeichnis>
+    local dsc=$1 dest=$2 dir f
+    dir=$(dirname "$dsc")
+    cp "$dsc" "$dest/"
+    while read -r f; do
+        [[ $f =~ ^[A-Za-z0-9][A-Za-z0-9.+~_-]*$ ]] || die "ungültiger Dateiname in $(basename "$dsc"): $f"
+        [[ -f $dir/$f ]] || die "$f aus $(basename "$dsc") fehlt"
+        cp "$dir/$f" "$dest/"
+    done < <(awk '/^Files:/{f=1;next} /^[^ ]/{f=0} f&&NF==3{print $3}' "$dsc")
+}
+
 # Liest einen Wert aus einer meta.env-Datei, OHNE sie auszuführen.
 meta_get() {
     local file=$1 key=$2
