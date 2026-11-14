@@ -20,9 +20,12 @@ on:
 
 permissions: {}
 
+# Ein neuer Push auf main bricht laufende oder auf Freigabe wartende stable-Läufe ab;
+# es läuft immer nur der neueste. Unbedenklich, weil publish.yml gh-pages erst im
+# letzten Schritt mit einem einzigen Push aktualisiert.
 concurrency:
   group: stable
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
