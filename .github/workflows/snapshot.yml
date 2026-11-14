@@ -39,6 +39,9 @@ jobs:
     uses: ./.github/workflows/publish.yml
     permissions:
       contents: write
+    # Ohne Weitergabe sieht der aufgerufene Workflow auch die Environment-Secrets
+    # nicht (leerer Wert). Der Key liegt nur in der Environment "snapshot".
+    secrets: inherit
     with:
       suite: snapshot
       environment: snapshot
