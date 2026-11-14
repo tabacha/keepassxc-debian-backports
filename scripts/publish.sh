@@ -66,7 +66,7 @@ fi
 mkdir -p "$SRCDIR"
 dscs=("$SRC"/*.dsc)
 [[ ${#dscs[@]} -eq 1 ]] || die "erwarte genau eine .dsc"
-dcmd cp "${dscs[0]}" "$SRCDIR/"
+copy_dsc "${dscs[0]}" "$SRCDIR"
 
 # ---------------------------------------------------------------- Alte Versionen entfernen
 mapfile -t versions < <(
